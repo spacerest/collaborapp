@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user %}
+
+    <h1>HI {{request.user}}!</h1>
+
+{% endif %}
+
+<p>you're at home, baby</p>
+
+{% endblock content %}
