@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', notes.views.signup),
     path('home/', notes.views.home),
-    path('login/', notes.views.login),
+    path('login/', notes.views.login_user),
 ]
