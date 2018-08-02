@@ -1,15 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>mininotes</title>
+    <link rel="stylesheet" type="text/css" href='{% static "notes/style.css" %}'>
 </head>
 <body>
     <nav>
         {% if request.user.is_authenticated %}
+            <p class="welcome">you're at home, baby</p>
             <a href="/logout/">Logout</a>
-            {{ request.user }}
         {% else %}
-            {{ url }}
             <a href="/login/">Login</a>
             <a href="/signup/">Signup</a>
         {% endif %}
