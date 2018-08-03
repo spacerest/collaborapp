@@ -18,9 +18,9 @@ from django.urls import path, include
 import notes.views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('live/', admin.site.urls),
     path('signup/', notes.views.signup),
-    path('home/', notes.views.home),
+    path('', notes.views.home),
     path('login/', notes.views.login_user),
     path('logout/', notes.views.logout_user),
 ]

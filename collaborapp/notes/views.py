@@ -9,7 +9,7 @@ from notes.models import Note
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('/home')
+        return redirect('/')
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -18,7 +18,7 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('/home')
+            return redirect('/')
         else:
             return render(request, 'signup.html', {'form': form})
     else:
@@ -27,7 +27,7 @@ def signup(request):
 
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect('/home')
+        return redirect('/')
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -35,7 +35,7 @@ def login_user(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('/home')
+            return redirect('/')
         else:
             return render(request, 'login.html', {'form': form})
     else:
