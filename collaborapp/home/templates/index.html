@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Home </h1>
+<h2>Birthdays</h2>
+<ul>
+
+	<li>
+		<a href={% url 'show_birthday_card' birthday_person='martin' age=33 %}>Happy 33rd Birthday, Martin! <3</a> 
+	</li>
+
+</ul>
+<h2>Notes</h2>
+{% endblock content %}

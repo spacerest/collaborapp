@@ -1,0 +1,75 @@
+/* Animation from Ferhat Sevim */
+/* https://code.sololearn.com/Wq8x9ZtnPhdH/#css */
+
+.cube{
+    perspective:500px;
+    perspective-origin:50% 300px;
+}
+.cube-face{
+    margin:100px;
+        top:10px;
+    right:55px;
+       width:100px;
+   height:100px;
+       position:relative;
+    transform-style:preserve-3d;
+       animation:up 5s  infinite linear;
+				    
+    transition:width 10s linear;
+       opacity:1;
+																   
+}
+.cube-face div{
+	    width:100px;
+        height:100px;
+    position:relative;
+					        
+
+}
+.cube-face-front{
+
+	    transform:translateX(25px);
+		        
+}
+
+.baloon{
+	margin:-50px;
+    top:10px;
+        right:70px;
+    width:100px;
+        height:100px
+	img{float:top ;}
+	position:absolute;
+    transform-style:preserve-3d;
+        animation:down 5s infinite  linear;
+    transition:width 10s linear;
+         opacity:0.7;
+}
+@keyframes up{
+	    from {
+	        
+	        transform:translate(0px,500px);
+	    -webkit-transform:translate(0px,-300px);
+					        
+					        }
+	        to {
+			    
+    transform:translate(0px, 0px);
+       -webkit-transform:translate(0px, 50px);
+						    
+						    }
+}
+@keyframes down{
+	    from {
+		        
+		        transform:translate(500px,500px);
+				    -webkit-transform:translate(0px,400px);
+					        
+					        }
+	        to {
+			    
+			    transform:translate(0px, 0px);
+				        -webkit-transform:translate(0px,-200px);
+						    
+						    }
+}

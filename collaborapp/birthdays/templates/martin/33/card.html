@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!--link rel="stylesheet" type="text/css" href='{% static "birthdays/martin/33/main.css" %}'-->
+<style>
+.content-container {
+  padding: 20px;
+  margin: 5px;
+}
+
+h1 {
+  font-family: cursive;
+  margin: auto;
+}
+
+.flex-column {
+  flex-direction: column;
+  justify-content: space-around;
+  display: flex;
+  min-height: 90vh;
+  align-items: center;
+	padding: 10px;
+	margin-bottom: 5vh;
+	margin-top: 10vh;
+	justify-items: center;
+	box-sizing: border;
+}
+
+.flex-container-nowrap {
+	display: flex;
+	align-items: center;
+	justify-items: center;
+}
+
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+  	align-items: center;
+	justify-items: center;
+}
+
+.flex-block {
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+body {
+  color: rgb(55, 176, 146); 
+}
+.border-one {
+	border: 3px solid rgb(120, 219, 59);
+}
+
+.box-one {
+	background-color: rgb(120, 219, 59);
+}
+
+.box-two {
+	background-color: rgb(60, 119, 259);
+}
+.box {
+	padding: 10px;
+	min-width: 300px;
+	color: #fff;
+	text-align: center;
+}
+
+.box:hover {
+	cursor: pointer;
+}
+
+.box-three {
+	background-color: rgb(220, 79, 159);
+}
+
+.border-three {
+	border: 3px solid rgb(220, 79, 159);
+}
+
+.border-two {
+	border: 3px solid rgb(60, 119, 259);
+}
+
+.down-arrow {
+width: 100%;
+}
+
+.arrows {
+		width: 80px;
+				height: 80px;
+						position: relative;
+										margin-left: 40px;
+												bottom: 20px;
+}
+
+.arrows path {
+		stroke: #fff;
+				fill: transparent;
+						stroke-width: 3px;	
+								animation: arrow 2s infinite;
+										-webkit-animation: arrow 2s infinite; 
+}
+
+@keyframes arrow
+{
+	0% {opacity:0; transform:translateY(10px)}
+	80% {opacity:1; transform:translateY(50px)}
+	100% {opacity:0; transform:translateY(50px)}
+}
+
+@-webkit-keyframes arrow /*Safari and Chrome*/
+{
+	0% {opacity:0; transform:translateY(10px)}
+	80% {opacity:1; transform:translateY(50px)}
+	100% {opacity:0; transform:translateY(50px)}
+}
+
+.arrows path.a1 {
+		animation-delay:-0.5s;
+				-webkit-animation-delay:-0.5s; /* Safari and Chrome */
+}
+</style>
+<div class="flex-column">
+	<div class="flex-container-nowrap">
+
+	</div>
+	<div class="button-down box box-one"onclick="scrollToNext('section1')">
+		<p class="" >Click here</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+	</div>
+</div>
+<div class="content-container">
+
+<div class="flex-column border-one" id="section1">
+	<div class="flex-container-nowrap">
+		<h1>Happy 33rd Birthday Martin!</h1>
+	</div>
+	<div class="button-down box box-two"onclick="scrollToNext('section1b')">
+		<p class="" >And again</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+	</div>
+</div>
+
+<div class="flex-column border-two" id="section1b">
+	<div class="flex-container-nowrap" >
+		<h1>Thanks for spending this year with me.</h1>
+	</div>
+	<div class="button-down box box-three"onclick="scrollToNext('section1c')">
+		<p class="" >And again</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+	</div>
+</div>
+
+<div class="flex-column border-three" id="section1c">
+	<div class="flex-container-nowrap" >
+		<h1>I want to spend more time with you and build memories with you this next year.</h1>
+	</div>
+	<div class="button-down box box-one" onclick="scrollToNext('section1d')">
+		<p class="" >And again</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+	</div>
+</div>
+
+<div class="flex-column border-one" id="section1d">
+	<div class="flex-container-nowrap" id="section1">
+		<h1>So I have an idea.</h1>
+	</div>
+	<div class="button-down box box-two"onclick="scrollToNext('section1f')">
+		<p class="" >And again</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+	</div>
+</div>
+
+
+<div class="flex-column border-three" id="section1f">
+	<div class="flex-container-nowrap" id="section1">
+	</div>
+	<div class="button-down box box-three"onclick="scrollToNext('section1e')">
+		<p class="" >Click</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+	</div>
+</div>
+
+<div class="flex-column border-three" id="section1e">
+	<div class="flex-container-nowrap" >
+	</div>
+	<div class="button-down box box-one"onclick="scrollToNext('section1g')">
+		<p class="" >Click</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+	</div>
+</div>
+
+<div class="flex-column border-three" id="section1g">
+	<div class="flex-container-nowrap" id="section1">
+		<h1>Will you dance with me this year?</h1>
+	</div>
+	<div class="button-down box box-one"onclick="scrollToNext('section3')">
+		<p class="" >And again</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+	</div>
+</div>
+
+
+
+
+
+
+
+<div class="flex-column border-two" id="section3">
+	<div class="flex-container-nowrap" >
+		<h1>This is my birthday goal for you (us):</h1
+	</div>
+	<div class="button-down box box-three" onclick="scrollToNext('section2c')">
+		<p class="">nExT</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+</div>
+</div>
+
+<div class="flex-column border-one" id="section2c">
+	<div class="flex-container-nowrap" >
+		<h1>
+		Weekly dances for the next year 💃🕺
+		</h1>
+	</div>
+	<div class="button-down box box-two" onclick="scrollToNext('section2b')">
+		<p class="">nExT</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+</div>
+
+<div class="flex-column border-two" id="section2b">
+	<div class="flex-container-nowrap" >
+		<h1>Yeah?</h1>
+	</div>
+	<div class="button-down box box-three" onclick="scrollToNext('section2d')">
+		<p class="">nExT</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+</div>
+
+<div class="flex-column border-one" id="section2d">
+	<div class="flex-container-nowrap" >
+		<h1>Cool:)</h1>
+	</div>
+	<div class="button-down box box-two" onclick="scrollToNext('section4')">
+		<p class="">nExT</p>
+		<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		</div>
+	
+</div>
+
+<div class="flex-column border-three" id="section4">
+	<div class="flex-container">
+		<div class="flex-block">
+			<h1>So let's add a reoccurring dance event to our shared calendar:)</h1>
+		</div>
+		<div class="flex-block box box-one">
+	<svg class="arrows">
+			<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+		</svg>
+		<div class="flex-block box box-three">
+
+			<a target="_blank" href="https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=NjJvaWFlMGxrOXI5Z2VlaDI5YWZvYWVub24gZmtobzdjaDJ1MGgxY2c3dmQxNWNqNmZlY2tAZw&amp;tmsrc=fkho7ch2u0h1cg7vd15cj6feck%40group.calendar.google.com"><img border="0" src="https://www.google.com/calendar/images/ext/gc_button1_en.gif"></a>
+		
+		</div>
+</div>
+<div class="flex-column border-one" id="section4">
+	<div class="flex-container ">
+		<div class="flex-block">
+			<h1>And add songs and videos to this playlist of dances for us to try:)</h1>
+		</div>
+		<div class="flex-block">
+			<div style="max-width: 100%;">
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL9jC5ldKv4GyPc548SNRvpO_WSo5diqya" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+		</div>
+		<div class="button-down box box-two" onclick="scrollToNext('section5')">
+			<p class="arrows">nExT</p>
+			<svg class="arrows">
+				<path stroke-linecap="round" class="a1" d="M0 0 L20 22 L40 0"></path>
+			</svg>
+			</div>
+		</div>
+
+<div class="flex-column border-two" id="section5">
+<div class="flex-container-nowrap box box-three" >
+	<h1>Love you</h1>
+	</br>
+	</br>
+	<p>~sadie</p>
+</div>
+</div>
+</div>
+	</div>
+
+									                 
+</div>
+</div>
+
+
+<script>
+function scrollToNext(id) {
+  var elmnt = document.getElementById(id);
+  console.log(elmnt);
+  elmnt.scrollIntoView({ block: 'start',  behavior: 'smooth' });
+}
+</script>
+
+
+{% endblock content %}

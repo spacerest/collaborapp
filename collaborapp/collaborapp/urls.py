@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import notes.views
+import notes.views, birthdays.views, home.views
 
 urlpatterns = [
+    path('', home.views.go_home, name='go_home'), 
     path('live/', admin.site.urls),
-    path('signup/', notes.views.signup),
-    path('', notes.views.home),
-    path('login/', notes.views.login_user),
-    path('logout/', notes.views.logout_user),
+    path(r'birthdays/<birthday_person>/<age>/', birthdays.views.show_card, name='show_birthday_card'),
+    path('signup/', home.views.signup),
+    path('notes/', notes.views.home),
+    path('login/', home.views.login_user),
+    path('logout/', home.views.logout_user),
 ]
