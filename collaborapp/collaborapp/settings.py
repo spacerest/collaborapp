@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from __keys import django_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") #'^zrmap(747^!&sgg(@x_4s376-064xjr0udo=!py33*2#59y2r'
+SECRET_KEY = django_secret_key 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False 
@@ -55,7 +56,9 @@ ROOT_URLCONF = 'collaborapp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'notes/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'notes/templates'), 
+            os.path.join(BASE_DIR, 'home/templates'),
+            os.path.join(BASE_DIR, 'birthdays/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,8 +123,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/usr/share/nginx/websites/notes/static/'
+STATIC_ROOT = '/usr/share/nginx/websites/collaborapp/'
 
 STATICFILES_DIRS = [
 	os.path.join(BASE_DIR, 'notes/static'),
+	os.path.join(BASE_DIR, 'home/static'),
+	os.path.join(BASE_DIR, 'birthdays/static'),
 ]
