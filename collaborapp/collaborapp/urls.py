@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import notes.views, birthdays.views, home.views
+import notes.views, birthdays.views, home.views, postoffice.views
+import postoffice.urls
 
 urlpatterns = [
     path('', home.views.go_home, name='go_home'), 
@@ -25,4 +26,5 @@ urlpatterns = [
     path('notes/', notes.views.home),
     path('login/', home.views.login_user),
     path('logout/', home.views.logout_user),
+    path('postoffice/', include('postoffice.urls')),
 ]

@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = django_secret_key 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = True 
 
-ALLOWED_HOSTS = ['thisisatest.life']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'notes',
+    'home',
+    'birthdays',
+    'postoffice',
 ]
 
 MIDDLEWARE = [
@@ -56,9 +59,12 @@ ROOT_URLCONF = 'collaborapp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'notes/templates'), 
+        'DIRS': [
+            os.path.join(BASE_DIR, 'notes/templates'),
             os.path.join(BASE_DIR, 'home/templates'),
-            os.path.join(BASE_DIR, 'birthdays/templates')],
+            os.path.join(BASE_DIR, 'birthdays/templates'),
+            os.path.join(BASE_DIR, 'postoffice/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,4 +135,5 @@ STATICFILES_DIRS = [
 	os.path.join(BASE_DIR, 'notes/static'),
 	os.path.join(BASE_DIR, 'home/static'),
 	os.path.join(BASE_DIR, 'birthdays/static'),
+	os.path.join(BASE_DIR, 'postoffice/static'),
 ]

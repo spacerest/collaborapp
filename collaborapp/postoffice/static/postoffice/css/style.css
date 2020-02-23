@@ -1,0 +1,52 @@
+body {
+    max-width: 80vw;
+    margin: auto;
+}
+
+.content-container {
+    border: 2px solid #000;
+    background-color: rgba(255,255,255, 0.7);
+    padding: 10px;
+    margin: 10px;
+    min-height: 40vh;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+
+nav .welcome {
+    margin: 0;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+a {
+    color: gray;
+    text-decoration: none;
+}
+
+input[type='submit']{
+  background: rgba(0,0,0,0.8);
+  border: 1px solid gray;
+  font-size: 1em;
+  cursor: pointer;
+  color: #fff;
+  padding: 4px;
+  min-width: 250px;
+  max-width: 100%;
+  margin: auto;
+}
+
+input[type='submit']:hover {
+    color: pink;
+    border: 1px solid black;
+    transition: ease-in-out .2s;
+}
+
