@@ -1,0 +1,36 @@
+{% extends 'postoffice/base.html' %}
+{% load static %}
+{% block content %}
+        {% if envelope.is_encrypted %}
+            <p>Your friend secured your item with a passcode.</p>
+            <p>Please answer this question to receive your item:</p>
+            <p>{{ envelope.user_prompt }}</p>
+        {% else %}
+            <h3>Your friend {{ envelope.sender_name }} sent you this message:</h3>
+            <p>
+                {{ envelope.encrypted_string_object.message }}
+            </p>
+        {% endif %}
+
+    {% if not envelope.is_encrypted %}
+        <h3>Would you like to save and encrypt this message?</h3>
+        <p>If you don't, it will be visible to anyone who comes to this url.<p>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if envelope.is_encrypted %}
+            <input type="submit" name="submit" value="Decrypt Message">
+        {% else %}
+            <input type="submit" name="submit" value="Encrypt Message">
+        {% endif %}
+    </form>
+
+    <h3>Would you like to delete this message?</h3>
+    <form method="POST" action="{% url 'postoffice_delete_item' envelope.primary_key %}">
+        {% csrf_token %}
+        <input type="submit" name="submit" value="Delete Message">
+    </form>
+
+
+{% endblock %}

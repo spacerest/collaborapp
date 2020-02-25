@@ -1,10 +1,25 @@
 from django import forms
 from django.forms import ModelForm
-from postoffice.models import Letter
+from postoffice.models import Envelope, EncryptedStringObject
 
-class LetterReceiver(ModelForm):
-    private_key = forms.CharField(max_length=10, help_text='your key to receive')
-
+class EnvelopeReceiver(ModelForm):
     class Meta:
-        model = Letter 
-        fields = ('private_key',)
+        model = Envelope 
+        fields = ('primary_key',)
+
+class NewEnvelope(ModelForm):
+    class Meta:
+        model = Envelope 
+        fields = ('primary_key', 'sender_name', 'recipient_name', )
+
+class NewEncryptedStringObject(ModelForm):
+    class Meta:
+        model = EncryptedStringObject
+        fields = ('message', ) 
+
+class StringLocker(forms.Form):
+    user_prompt = forms.CharField(label='Passcode reminder')
+    symmetric_key = forms.CharField(label='Passcode')
+
+class StringUnlocker(forms.Form):
+    symmetric_key = forms.CharField(label='Passcode')

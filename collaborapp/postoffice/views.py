@@ -1,59 +1,90 @@
-from django.shortcuts import render
-from postoffice.forms import LetterReceiver
-from __keys import django_secret_key
-from cryptography.fernet import Fernet
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-import os
-import base64
-
+from django.shortcuts import render, redirect
+from postoffice.forms import EnvelopeReceiver, StringLocker, StringUnlocker, NewEncryptedStringObject, NewEnvelope
+from postoffice.models import Envelope, EncryptionType, EncryptedStringObject
+from postoffice import utilities
 # Create your views here.
 
 def home(request):
-    if request.method == "POST":
-        form = LetterReceiver(request.POST)
-        encrypted_message = encrypt_string(form["private_key"].value(), "hello my old friend")
-        print(encrypted_message)
-        message = decrypt_string(form["private_key"].value(), encrypted_message)
-        print(message)
-        data = {'form': form, 'message': message}
-        return render(request, 'postoffice/view_letter.html', data)
+    return render(request, 'postoffice/home.html')
+
+def lookup_envelope(primary_key):
+    envelope_object_list = Envelope.objects.filter(primary_key=primary_key)
+    if envelope_object_list:
+        print(envelope_object_list)
+        return envelope_object_list[0]
     else:
-        form = LetterReceiver()
-        data = {'form': form}
-        return render(request, 'postoffice/home.html', data)
+        return False
 
-def encrypt_string(key, message):
-    key = key.encode()
-    salt = django_secret_key.encode()
-    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), 
-                 length=32,
-                 salt=salt,
-                 iterations=100000,
-                 backend=default_backend())
-    key = base64.urlsafe_b64encode(kdf.derive(key))
+def delete_item(request, primary_key):
+    envelope_object = lookup_envelope(primary_key) 
+    envelope_object.delete()
+    return redirect('postoffice_home')
 
-    f = Fernet(key)
+def new_item(request):
+    if request.method == "POST":
+        envelope_form = NewEnvelope(request.POST)
+        message_form = NewEncryptedStringObject(request.POST)
+        if message_form.is_valid() and envelope_form.is_valid():
+            #for now, only letting fernet_string encryption be an option
+            encryption_type = EncryptionType.objects.filter(name="fernet_string")[0]
+            print(encryption_type)
+            envelope = envelope_form.save(commit=False)
+            message = message_form.save(commit=False)
+            message.encryption_type = encryption_type
+            print(message.encryption_type)
+            message.save()
+            envelope.encrypted_string_object = message
+            envelope.save()
+            return redirect('postoffice_encrypt', envelope.primary_key)
+    data = {'envelope_form': envelope_form, 'message_form': message_form}
+    return render(request, 'postoffice/outbox.html', data)
 
-    message_encoded = message.encode()
-    message_encrypted = f.encrypt(message_encoded)
-    return message_encrypted
+def send_envelope(request):
+    envelope_form = NewEnvelope()
+    message_form = NewEncryptedStringObject()
+    data = {"envelope_form": envelope_form, "message_form": message_form}
+    return render(request, 'postoffice/outbox.html', data)
 
-def decrypt_string(key, encrypted_message):
-    key = key.encode()
-    salt = django_secret_key.encode()
-    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), 
-                 length=32,
-                 salt=salt,
-                 iterations=100000,
-                 backend=default_backend())
-    key = base64.urlsafe_b64encode(kdf.derive(key))
+def find_envelope(request, primary_key=None):
+    if not primary_key:
+        envelope_object = lookup_envelope(request.GET.get("primary_key", False))
+        data = {'envelope': envelope_object}
+    form = EnvelopeReceiver()
+    data['form'] = form
+    return render(request, 'postoffice/inbox.html', data)
 
-    f = Fernet(key)
+#todo research sending symmetric key in cleartext
+def encrypt(request, primary_key):
+    envelope_object = lookup_envelope(primary_key) 
+    if envelope_object:
+        if request.method == "POST":
+            form = StringLocker(request.POST)
+            symmetric_key = form["symmetric_key"].value()
+            user_prompt = form["user_prompt"].value()
+            envelope_object.user_prompt = user_prompt
+            encrypted_message = utilities.encrypt_string(symmetric_key, envelope_object.encrypted_string_object.message)
+            envelope_object.encrypted_string_object.encrypted_message = encrypted_message
+            envelope_object.encrypted_string_object.message = None
+            envelope_object.is_encrypted = True
+            envelope_object.encrypted_string_object.save()
+            envelope_object.save()
+    form = StringUnlocker() if envelope_object.is_encrypted else StringLocker()
+    return render(request, 'postoffice/encrypt.html', {'form': form, 'envelope': envelope_object})
 
-    message_decrypted = f.decrypt(encrypted_message)
-    message_decoded = message_decrypted.decode()
-    return message_decoded
-
+#todo research sending symmetric key in cleartext
+def decrypt(request, primary_key):
+    envelope_object = lookup_envelope(primary_key) 
+    if envelope_object:
+        if request.method == "POST":
+            form = StringLocker(request.POST)
+            symmetric_key = form["symmetric_key"].value()
+            envelope_object.user_prompt = None
+            message = utilities.decrypt_string(symmetric_key, envelope_object.encrypted_string_object.encrypted_message)
+            envelope_object.encrypted_string_object.encrypted_message = None
+            envelope_object.encrypted_string_object.message = message 
+            envelope_object.is_encrypted = False 
+            envelope_object.encrypted_string_object.save()
+            envelope_object.save()
+    form = StringUnlocker() if envelope_object.is_encrypted else StringLocker()
+    return render(request, 'postoffice/encrypt.html', {'form': form, 'envelope': envelope_object})
 
