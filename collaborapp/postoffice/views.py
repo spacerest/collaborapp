@@ -10,7 +10,6 @@ def home(request):
 def lookup_envelope(primary_key):
     envelope_object_list = Envelope.objects.filter(primary_key=primary_key)
     if envelope_object_list:
-        print(envelope_object_list)
         return envelope_object_list[0]
     else:
         return False
@@ -54,14 +53,15 @@ def find_envelope(request, primary_key=None):
     data['form'] = form
     return render(request, 'postoffice/inbox.html', data)
 
-
 #todo research sending symmetric key in cleartext
 def view_contents(request, primary_key):
-    envelope_object = lookup_envelope(primary_key) 
-    if envelope_object:
-        contents = envelope_object.encrypted_objects.all()
+    data = {}
+    data['envelope'] = lookup_envelope(primary_key) 
+    data['form'] = StringUnlocker()
+    if data['envelope']:
+        data['contents'] = data['envelope'].encrypted_objects.all()
     form = StringUnlocker()
-    return render(request, 'postoffice/view_contents.html', {'form': form, 'envelope': envelope_object, 'contents': contents})
+    return render(request, 'postoffice/view_contents.html', data)
 
 #todo research sending symmetric key in cleartext
 def encrypt(request, primary_key):
@@ -102,23 +102,24 @@ def edit_item(request, primary_key):
 
 #todo research sending symmetric key in cleartext
 def decrypt(request, primary_key):
-    envelope_object = lookup_envelope(primary_key) 
-    if envelope_object:
+    data = {}
+    data['envelope'] = lookup_envelope(primary_key) 
+    if data['envelope']:
         if request.method == "POST":
-            if not envelope_object.is_encrypted:
-                return encrypt(request, primary_key)
-
-            form = StringLocker(request.POST)
+            form = StringUnlocker(request.POST)
             symmetric_key = form["symmetric_key"].value()
             try:
-                envelope_object = decrypt_envelope_and_contents(envelope_object, symmetric_key)
+                encrypted_contents = decrypt_envelope_and_contents(data['envelope'], symmetric_key)
             except Exception as e:
                 data['error_msg'] = repr(e) + str(e)
-                #raise e
+                data['form'] = form
+                data['envelope'] = lookup_envelope(primary_key)
+                data['contents'] = data['envelope'].encrypted_objects.all()
+                return render(request, 'postoffice/view_contents.html', data)
             else:
-                envelope_object.user_prompt = None
-                envelope_object.is_encrypted = False 
-                envelope_object.save()
+                encrypted_contents.user_prompt = None
+                encrypted_contents.is_encrypted = False 
+                encrypted_contents.save()
     return redirect('postoffice_view_contents', primary_key)
 
 def encrypt_envelope_and_contents(envelope, symmetric_key):
@@ -138,8 +139,6 @@ def decrypt_envelope_and_contents(envelope, symmetric_key):
     try:
         #todo if you want more than one object in an envelope, update this:
         object_in_envelope = envelope.encrypted_objects.first()
-        print("this should be an obj in an envelope:")
-        print(object_in_envelope)
         message = utilities.decrypt_string(symmetric_key, object_in_envelope.encrypted_message)
         object_in_envelope.encrypted_message = None
         object_in_envelope.message = message 

@@ -27,24 +27,21 @@ def encrypt_string(key, message):
     return message_encrypted
 
 def decrypt_string(key, encrypted_message):
-    #try:
-    key = key.encode()
-    salt = django_secret_key.encode()
-    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), 
-                 length=32,
-                 salt=salt,
-                 iterations=100000,
-                 backend=default_backend())
-    key = base64.urlsafe_b64encode(kdf.derive(key))
+    try:
+        key = key.encode()
+        salt = django_secret_key.encode()
+        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), 
+                     length=32,
+                     salt=salt,
+                     iterations=100000,
+                     backend=default_backend())
+        key = base64.urlsafe_b64encode(kdf.derive(key))
 
-    f = Fernet(key)
+        f = Fernet(key)
 
-    message_decrypted = f.decrypt(encrypted_message)
-    message_decoded = message_decrypted.decode()
+        message_decrypted = f.decrypt(encrypted_message)
+        message_decoded = message_decrypted.decode()
+    except Exception as e:
+        raise e 
     return message_decoded
-    #except Exception as e:
-    #    print("hi, i am a problem in utilities file:")
-    #    print(e)
-    #    print(Exception)
-    #    raise e 
 
