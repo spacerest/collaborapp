@@ -1,21 +1,26 @@
 {% extends 'postoffice/base.html' %}
 {% load static %}
     {% block content %}
-        <h2>Inbox</h2>
-        <form method="GET">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" name="submit" value="Find Envelope">
+    <h2>Inbox</h2>
+        <div class="container">
+            <form method="GET">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" name="submit" value="Find Envelope">
 
-        </form>
-
-        {% if envelope %}
-            <h2>Hello, I think you might be {{ envelope.recipient_name }}. We have an item for you!</h2>
-            <a href="{% url 'postoffice_encrypt' envelope.primary_key %}">{{ envelope }}</a>
-        {% else %}
-            <p>Sorry, we don't have an item with that primary key!</p>
-        {% endif %}
+            </form>
+        </div>
+            <h2>Results:</h2>
+            {% if envelope %}
+            <div class="success-bg container">
+                <p>
+                    <a href="{% url 'postoffice_encrypt' envelope.primary_key %}"><span class="icon">💌</span>{{ envelope }}</a>
+                </p>
+            </div>
+            {% else %}
+            <div class="neutral-bg container">
+                <p><span class="icon">📭</span>No results to show.</p>
+            </div>
+            {% endif %}
 
     {% endblock %}
-</body>
-</html>

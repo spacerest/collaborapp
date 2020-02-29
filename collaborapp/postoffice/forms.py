@@ -18,8 +18,8 @@ class NewEncryptedStringObject(ModelForm):
         fields = ('message', ) 
 
 class StringLocker(forms.Form):
-    user_prompt = forms.CharField(label='Passcode reminder')
-    symmetric_key = forms.CharField(label='Passcode')
+    user_prompt = forms.CharField(label='Set a passcode reminder')
+    symmetric_key = forms.CharField(label='Set a passcode')
 
 class StringUnlocker(forms.Form):
     symmetric_key = forms.CharField(label='Passcode')

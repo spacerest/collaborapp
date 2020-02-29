@@ -1,0 +1,61 @@
+{% extends 'postoffice/base.html' %}
+{% load static %}
+{% block content %}
+    <section>
+        {% if error_msg %}
+            <p class="error-bg paragraph-container">There was a problem: {{ error_msg }} </p>
+        {% endif %}
+        {% if success_msg %}
+            <p class="success-bg">Success! {{ success_msg }} </p>
+        {% endif %}
+        {% if envelope.is_encrypted %}
+            <h3>Message:</h3>
+            <div class="message-container error-bg"> 
+                <p>
+                    {% for content in contents %}
+                        {{ content.encrypted_message | linebreaks }}
+                    {% endfor %}
+                </p>
+            </div>
+    
+        {% else %}
+            <h3>Message:</h3>
+            <div class="message-container success-bg"> 
+                <p>
+                    {% for content in contents %}
+                        {{ content.message | linebreaks }}
+                    {% endfor %}
+                </p>
+            </div> 
+        {% endif %}
+    </section>
+    {% if envelope.is_encrypted %}
+    <section>
+            <h3>This item is secured with a passcode.</h3>
+                <h4>Please use this prompt to decrypt the contents of this envelope:</h4>
+                <p class="paragraph-container info-bg">{{ envelope.user_prompt }}</p>
+        <form method="POST" action="{% url 'postoffice_decrypt' envelope.primary_key %}">
+            <div class="neutral-bg container">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="container">
+                <input class="neutral-bg" type="submit" name="submit" value="Decrypt Message">
+            </div>
+        </form>
+    </section>
+    {% endif %}
+    {% if not envelope.is_encrypted %}
+        <section>
+            <h3>Would you like to encrypt or delete this message?</h3>
+            <h4>If you leave it how it is, anyone who comes to this url can view it.</h4>
+            <form method="GET" action="{% url 'postoffice_edit_item' envelope.primary_key %}">
+                {% csrf_token %}
+                <div class="container">
+                    <input class="neutral-bg" type="submit" name="submit" value="Manage Message">
+                </div>
+            </form>
+        </section>
+    {% endif %}
+
+{% endblock %}
