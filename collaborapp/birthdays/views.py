@@ -5,3 +5,6 @@ from django.shortcuts import render
 def show_card(request, birthday_person, age):
     template = str(birthday_person) + '/' + str(age) + '/card.html'
     return render(request, template)
+
+def home(request):
+    return render(request, 'base.html')
