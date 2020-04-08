@@ -70,3 +70,44 @@ input[type='submit']:hover {
     flex-grow: 1;
     background-color: lightblue;
 }
+
+.image-link-menu {
+    width: 100%;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 50%);
+    grid-auto-flow: column;
+}
+
+.image-link {
+    border: 4px solid #bbb;
+    display: inline-block;
+    width: auto; 
+    padding: 15px;
+    transition: border-color .5s ease-in-out;
+    background-color: lightblue;
+}
+
+.image-link:hover {
+    border: 4px solid #666;
+}
+
+.image-link-background {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.image-link .image-link-background span {
+text-align: center;
+vertical-align: middle;
+    line-height: 25vw;
+    font-size: 35px;
+    color: lightblue;
+    background-color: rgba(255,0,0,0.5);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+
