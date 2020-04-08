@@ -7,7 +7,7 @@ from django.contrib.auth import login, authenticate, logout
 
 
 def go_home(request):
-    return render(request, 'index.html')
+    return render(request, 'home/index.html')
 
 
 def signup(request):
