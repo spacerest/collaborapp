@@ -53,7 +53,7 @@
             <h3>This item is secured with a passcode.</h3>
                 <h4>Please use this prompt to decrypt the contents of this envelope:</h4>
                 <p class="paragraph-container info-bg">{{ envelope.user_prompt }}</p>
-        <form method="POST" action="{% url 'postoffice_decrypt' envelope.primary_key %}">
+        <form method="POST" action="{% url 'postoffice:decrypt' envelope.primary_key %}">
             <div class="neutral-bg container">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -68,7 +68,7 @@
         <section>
             <h3>Would you like to encrypt or delete this message?</h3>
             <h4>If you leave it how it is, anyone who comes to this url can view it.</h4>
-            <form method="GET" action="{% url 'postoffice_edit_item' envelope.primary_key %}">
+            <form method="GET" action="{% url 'postoffice:edit_item' envelope.primary_key %}">
                 {% csrf_token %}
                 <div class="container">
                     <input class="neutral-bg" type="submit" name="submit" value="Manage Message">

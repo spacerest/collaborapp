@@ -13,7 +13,7 @@
         {% endif %}
     <section>
         <h3>If you want to keep this message on the server for someone to unlock it later, please encrypt it by setting a passcode reminder (i.e. "What was your favorite color in 1999?") and a passcode that answers your reminder.</h3> 
-        <form method="POST" action="{% url 'postoffice_encrypt' envelope.primary_key %}">
+        <form method="POST" action="{% url 'postoffice:encrypt' envelope.primary_key %}">
             <div class="neutral-bg container">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -25,7 +25,7 @@
     </section>
     <section>
         <h3>Would you like to delete this message?</h3>
-        <form method="POST" action="{% url 'postoffice_delete_item' envelope.primary_key %}">
+        <form method="POST" action="{% url 'postoffice:delete_item' envelope.primary_key %}">
             {% csrf_token %}
             <div class="container">
                 <input class="neutral-bg" type="submit" name="submit" value="Delete Message">

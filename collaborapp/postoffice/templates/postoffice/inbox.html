@@ -14,7 +14,7 @@
             {% if envelope %}
             <div class="success-bg container">
                 <p>
-                    <a href="{% url 'postoffice_encrypt' envelope.primary_key %}"><span class="icon">💌</span>{{ envelope }}</a>
+                    <a href="{% url 'postoffice:encrypt' envelope.primary_key %}"><span class="icon">💌</span>{{ envelope }}</a>
                 </p>
             </div>
             {% else %}

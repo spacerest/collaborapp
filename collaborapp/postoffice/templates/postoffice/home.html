@@ -3,10 +3,10 @@
     {% block content %}
 
 	<p>
-            <a href="{% url 'postoffice_inbox' %}">Looking for a letter?</a>
+            <a href="{% url 'postoffice:inbox' %}">Looking for a letter?</a>
 	</p>
 	<p>
-            <a href="{% url 'postoffice_outbox' %}">Writing a new letter?</a>
+            <a href="{% url 'postoffice:outbox' %}">Writing a new letter?</a>
 	</p>
 
     {% endblock %}

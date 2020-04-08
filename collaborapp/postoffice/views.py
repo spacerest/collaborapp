@@ -20,7 +20,7 @@ def delete_item(request, primary_key):
     #only make envelope object deletable if it's not currently encrypted
     if not envelope_object.is_encrypted:
         envelope_object.delete()
-    return redirect('postoffice_home')
+    return redirect('postoffice:home')
 
 def new_item(request):
     if request.method == "POST":
@@ -46,7 +46,7 @@ def new_item(request):
             pdf.encryption_type = encryption_type
             pdf.save()
 
-            return redirect('postoffice_encrypt', envelope.primary_key)
+            return redirect('postoffice:encrypt', envelope.primary_key)
     data = {'envelope_form': envelope_form, 'message_form': message_form, 'image_form': image_form, 'pdf_form': pdf_form}
     return render(request, 'postoffice/outbox.html', data)
 
@@ -95,7 +95,7 @@ def encrypt(request, primary_key):
                 envelope_object.user_prompt = user_prompt
                 envelope_object.is_encrypted = True
                 envelope_object.save()
-    return redirect('postoffice_view_contents', primary_key)
+    return redirect('postoffice:view_contents', primary_key)
 
 def edit_item(request, primary_key):
     envelope_object = lookup_envelope(primary_key) 
@@ -136,7 +136,7 @@ def decrypt(request, primary_key):
                 encrypted_contents.user_prompt = None
                 encrypted_contents.is_encrypted = False 
                 encrypted_contents.save()
-    return redirect('postoffice_view_contents', primary_key)
+    return redirect('postoffice:view_contents', primary_key)
 
 def encrypt_envelope_and_contents(envelope, symmetric_key):
     try:
