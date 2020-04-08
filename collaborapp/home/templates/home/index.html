@@ -1,0 +1,26 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="image-link-menu">
+	<a class="image-link postoffice" href="{% url 'postoffice:home' %}">
+		<div class="image-link-background"><span>Postoffice</span></div>
+	</a>
+
+	<a class="image-link" href="{% url 'birthdays:home' %}">
+		<div class="image-link-background"><span>Birthdays</span></div>
+	</a>
+
+	<a class="image-link" href="{% url 'notes:home' %}">
+		<div class="image-link-background"><span>Notes</span></div>
+	</a>
+
+	<a class="image-link" href="{% url 'admin:index' %}">
+		<div class="image-link-background"><span>Django Admin</span></div>
+	</a>
+</div>
+
+
+{% endblock content %}
