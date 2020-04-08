@@ -9,7 +9,7 @@
 <body>
     <nav>
         {% if request.user.is_authenticated %}
-            <p class="welcome">you're at home, baby</p>
+	<a class="welcome" href={% url 'go_home' %}>Home</p>
             <a href="/logout/">Logout</a>
         {% else %}
             <a href="/login/">Login</a>

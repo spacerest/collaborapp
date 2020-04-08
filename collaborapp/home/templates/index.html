@@ -4,24 +4,21 @@
 
 {% block content %}
 
-<h1> Home </h1>
-
-<h2>Postoffice</h2>
 <div class="image-link-menu">
 	<a class="image-link" href={% url 'postoffice:home' %}>
 		<div class="image-link-background" style="background-image: url('{% static "postoffice/images/envelope_weird_group_2.svg" %}'); background-repeat: repeat;"><span>Postoffice</span></div>
 	</a>
 
 	<a class="image-link" href={% url 'birthday:home' %}>
-		<div class="image-link-background" style="background-image: url('{% static "postoffice/images/envelope_weird_group_2.svg" %}'); background-repeat: repeat;"><span>Birthdays</span></div>
+		<div class="image-link-background"><span>Birthdays</span></div>
 	</a>
 
 	<a class="image-link" href={% url 'notes:home' %}>
-		<div class="image-link-background" style="background-image: url('{% static "postoffice/images/envelope_weird_group_2.svg" %}'); background-repeat: repeat;"><span>Notes</span></div>
+		<div class="image-link-background"><span>Notes</span></div>
 	</a>
 
 	<a class="image-link" href={% url 'admin:index' %}>
-		<div class="image-link-background" style="background-image: url('{% static "postoffice/images/envelope_weird_group_2.svg" %}'); background-repeat: repeat;"><span>Django Admin</span></div>
+		<div class="image-link-background"><span>Django Admin</span></div>
 	</a>
 </div>
 

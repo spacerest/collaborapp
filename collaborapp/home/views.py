@@ -9,10 +9,10 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@login_required(login_url='/login')
 def go_home(request):
     return render(request, 'index.html')
 
+#not currently being used
 def signup(request):
     if request.user.is_authenticated:
         return redirect('/')
