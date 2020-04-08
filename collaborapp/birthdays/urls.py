@@ -5,5 +5,5 @@ app_name='birthday'
 
 urlpatterns = [
     path(r'', views.home, name='home'),
-    path(r'<birthday_person>/<age>/', views.show_card, name='show_birthday_card'),
+    path(r'<birthday_person>/<birthday_gifter>/<age>/', views.show_card, name='show_birthday_card'),
 ]

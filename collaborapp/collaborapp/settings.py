@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'notes',
     'home',
     'birthdays',
+    'notes',
     'postoffice',
 ]
 
@@ -60,9 +60,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'notes/templates'),
             os.path.join(BASE_DIR, 'home/templates'),
             os.path.join(BASE_DIR, 'birthdays/templates'),
+            os.path.join(BASE_DIR, 'notes/templates'),
             os.path.join(BASE_DIR, 'postoffice/templates'),
         ],
         'APP_DIRS': True,
