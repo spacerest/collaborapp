@@ -59,7 +59,6 @@ input {
 
 .message-container {
     max-height: 50vh;
-    min-height: 250px;
     padding: 5vw; 
     margin: 10px;
     min-padding: 10px;

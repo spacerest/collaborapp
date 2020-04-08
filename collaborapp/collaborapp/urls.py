@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 import notes.views, birthdays.views, home.views, postoffice.views
 import postoffice.urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', home.views.go_home, name='go_home'), 
@@ -27,4 +29,4 @@ urlpatterns = [
     path('login/', home.views.login_user),
     path('logout/', home.views.logout_user),
     path('postoffice/', include('postoffice.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

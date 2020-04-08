@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from postoffice.forms import EnvelopeReceiver, StringLocker, StringUnlocker, NewEncryptedStringObject, NewEnvelope
-from postoffice.models import Envelope, EncryptionType, EncryptedStringObject
+from postoffice.forms import EnvelopeReceiver, StringLocker, StringUnlocker, NewTextMessage, NewEnvelope, NewImageMessage, NewPdfMessage
+from postoffice.models import Envelope, EncryptionType, TextMessage, ImageMessage, PdfMessage
 from postoffice import utilities
 # Create your views here.
 
@@ -25,7 +25,9 @@ def delete_item(request, primary_key):
 def new_item(request):
     if request.method == "POST":
         envelope_form = NewEnvelope(request.POST)
-        message_form = NewEncryptedStringObject(request.POST)
+        message_form = NewTextMessage(request.POST)
+        image_form = NewImageMessage(request.POST)
+        pdf_form = NewPdfMessage(request.POST)
         if message_form.is_valid() and envelope_form.is_valid():
             #todo: for now, only letting fernet_string encryption be an option
             encryption_type = EncryptionType.objects.filter(name="fernet_string")[0]
@@ -35,14 +37,25 @@ def new_item(request):
             message.envelope = envelope 
             message.encryption_type = encryption_type
             message.save()
+            image = image_form.save(commit=False)
+            image.envelope = envelope 
+            image.encryption_type = encryption_type
+            image.save()
+            pdf = pdf_form.save(commit=False)
+            pdf.envelope = envelope 
+            pdf.encryption_type = encryption_type
+            pdf.save()
+
             return redirect('postoffice_encrypt', envelope.primary_key)
-    data = {'envelope_form': envelope_form, 'message_form': message_form}
+    data = {'envelope_form': envelope_form, 'message_form': message_form, 'image_form': image_form, 'pdf_form': pdf_form}
     return render(request, 'postoffice/outbox.html', data)
 
 def send_envelope(request):
     envelope_form = NewEnvelope()
-    message_form = NewEncryptedStringObject()
-    data = {"envelope_form": envelope_form, "message_form": message_form}
+    message_form = NewTextMessage()
+    image_form = NewImageMessage()
+    pdf_form = NewPdfMessage()
+    data = {"envelope_form": envelope_form, "message_form": message_form, "image_form": image_form, "pdf_form": pdf_form}
     return render(request, 'postoffice/outbox.html', data)
 
 def find_envelope(request, primary_key=None):
@@ -59,7 +72,10 @@ def view_contents(request, primary_key):
     data['envelope'] = lookup_envelope(primary_key) 
     data['form'] = StringUnlocker()
     if data['envelope']:
-        data['contents'] = data['envelope'].encrypted_objects.all()
+        data['text_contents'] = data['envelope'].text_messages.all()
+        data['image_contents'] = data['envelope'].image_messages.all()
+        data['pdf_contents'] = data['envelope'].pdf_messages.all()
+        print(data)
     form = StringUnlocker()
     return render(request, 'postoffice/view_contents.html', data)
 
@@ -96,7 +112,7 @@ def edit_item(request, primary_key):
                 envelope_object.user_prompt = user_prompt
                 envelope_object.is_encrypted = True
                 envelope_object.save()
-        contents = envelope_object.encrypted_objects.all()
+        contents = envelope_object.text_messages.all()
     form = StringUnlocker() if envelope_object.is_encrypted else StringLocker()
     return render(request, 'postoffice/edit_item.html', {'form': form, 'envelope': envelope_object, 'contents': contents})
 
@@ -114,7 +130,7 @@ def decrypt(request, primary_key):
                 data['error_msg'] = repr(e) + str(e)
                 data['form'] = form
                 data['envelope'] = lookup_envelope(primary_key)
-                data['contents'] = data['envelope'].encrypted_objects.all()
+                data['contents'] = data['envelope'].text_messages.all()
                 return render(request, 'postoffice/view_contents.html', data)
             else:
                 encrypted_contents.user_prompt = None
@@ -125,7 +141,7 @@ def decrypt(request, primary_key):
 def encrypt_envelope_and_contents(envelope, symmetric_key):
     try:
         #todo if you want more than one object in an envelope, update this:
-        object_in_envelope = envelope.encrypted_objects.first()
+        object_in_envelope = envelope.text_messages.first()
         encrypted_message = utilities.encrypt_string(symmetric_key, object_in_envelope.message)
         object_in_envelope.encrypted_message = encrypted_message
         object_in_envelope.message = None
@@ -138,7 +154,7 @@ def encrypt_envelope_and_contents(envelope, symmetric_key):
 def decrypt_envelope_and_contents(envelope, symmetric_key):
     try:
         #todo if you want more than one object in an envelope, update this:
-        object_in_envelope = envelope.encrypted_objects.first()
+        object_in_envelope = envelope.text_messages.first()
         message = utilities.decrypt_string(symmetric_key, object_in_envelope.encrypted_message)
         object_in_envelope.encrypted_message = None
         object_in_envelope.message = message 

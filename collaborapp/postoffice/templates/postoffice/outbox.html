@@ -5,6 +5,8 @@
         <form method="POST" action="{% url 'postoffice_new_item' %}">
             {% csrf_token %}
             {{ envelope_form.as_p }}
+            {{ image_form.as_p }}
+            {{ pdf_form.as_p }}
             {{ message_form.as_p }}
             <input type="submit" name="submit" value="Write Letter">
 

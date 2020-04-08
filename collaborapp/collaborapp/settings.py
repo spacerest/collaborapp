@@ -128,6 +128,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+if DEBUG:
+    MEDIA_ROOT = 'media/' 
+else:
+    MEDIA_ROOT = '/usr/share/nginx/websites/collaborapp/'
+
 
 STATIC_ROOT = '/usr/share/nginx/websites/collaborapp/'
 

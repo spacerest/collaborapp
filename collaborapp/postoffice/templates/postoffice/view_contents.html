@@ -12,21 +12,40 @@
             <h3>Message:</h3>
             <div class="message-container error-bg"> 
                 <p>
-                    {% for content in contents %}
+                    {% for content in text_contents %}
                         {{ content.encrypted_message | linebreaks }}
                     {% endfor %}
+		    {% for content in image_contents %}
+                        {{ content.encrypted_image | linebreaks }}
+                    {% endfor %}
+		    {% for content in pdf_contents %}
+                        {{ content.encrypted_pdf | linebreaks }}
+                    {% endfor %}
+
                 </p>
             </div>
     
         {% else %}
-            <h3>Message:</h3>
-            <div class="message-container success-bg"> 
-                <p>
-                    {% for content in contents %}
-                        {{ content.message | linebreaks }}
+            <h3>Message & Attached Files:</h3>
+                    {% for content in text_contents %}
+            		<div class="message-container success-bg"> 
+                	    <p>
+                            {{ content.message | linebreaks }}
+                	    </p>
+	    		</div>
                     {% endfor %}
-                </p>
-            </div> 
+                    {% for content in image_contents %}
+            		<div class="message-container success-bg"> 
+                         hi
+                        {{ content.image | linebreaks }}
+	    		</div>
+                    {% endfor %}
+		    {% for content in pdf_contents %}
+            		<div class="message-container success-bg"> 
+                            <a target="_blank" href="{{ content.pdf_file.url }}"><span class="icon">📖</span>Open {{ content.pdf_file }}</a>
+                            <a download="{{ content.pdf_file.name }}" href="{{ content.pdf_file.url }}"><span class="icon">🔽</span>Download {{ content.pdf_file }}</a>
+	    		</div>
+                    {% endfor %}
         {% endif %}
     </section>
     {% if envelope.is_encrypted %}
