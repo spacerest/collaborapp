@@ -25,7 +25,7 @@ SECRET_KEY = django_secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False 
 
-ALLOWED_HOSTS = ['thisisatest.life', 'www.thisisatest.life']
+ALLOWED_HOSTS = ['thisisatest.life', 'www.thisisatest.life', 'localhost', '127.0.0.1']
 
 # Application definition
 

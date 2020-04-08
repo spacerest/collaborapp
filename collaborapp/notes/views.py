@@ -23,4 +23,4 @@ def home(request):
             form = NoteForm(request.POST)
     else:
         form = NoteForm()
-    return render(request, 'home.html', {'form': form, 'notes': notes})
+    return render(request, 'notes/home.html', {'form': form, 'notes': notes})

@@ -1,16 +1,14 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from notes.forms import SignupForm, NoteForm
+from notes.forms import SignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 
 # gunicorn -b 0.0.0.0:8002 collaborapp.wsgi --daemon --workers=3
 
-# Create your views here.
 
 def go_home(request):
-    return render(request, 'index.html')
+    return render(request, 'home/index.html')
+
 
 #not currently being used
 def signup(request):
@@ -26,10 +24,11 @@ def signup(request):
             login(request, user)
             return redirect('/')
         else:
-            return render(request, 'signup.html', {'form': form})
+            return render(request, 'home/signup.html', {'form': form})
     else:
         form = SignupForm()
-        return render(request, 'signup.html', {'form': form})
+        return render(request, 'home/signup.html', {'form': form})
+
 
 def login_user(request):
     if request.user.is_authenticated:
@@ -43,13 +42,12 @@ def login_user(request):
             login(request, user)
             return redirect('/')
         else:
-            return render(request, 'login.html', {'form': form})
+            return render(request, 'home/login.html', {'form': form})
     else:
         form = AuthenticationForm()
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'home/login.html', {'form': form})
+
 
 def logout_user(request):
     logout(request)
     return redirect('/login')
-
-

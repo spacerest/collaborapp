@@ -1,0 +1,22 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 birthdays 🎁</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+</head>
+<body>
+    <nav>
+        {% if request.user.is_authenticated %}
+	    <a class="welcome" href="{% url 'home:go_home' %}">Home</a>
+            <a href="/logout/">Logout</a>
+        {% else %}
+            <a href="/login/">Login</a>
+        {% endif %}
+    </nav>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>
