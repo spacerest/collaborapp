@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from notes.forms import NoteForm
 from django.contrib.auth.decorators import login_required
+from collaborapp.decorators import group_required
 from notes.models import Note
 
 
 @login_required(login_url='/login')
+@group_required('us')  # private page, only admins and members of 'us' can access it
 def home(request):
     notes = Note.objects.filter(author=request.user).order_by('-created')
 
@@ -22,4 +24,3 @@ def home(request):
     else:
         form = NoteForm()
     return render(request, 'home.html', {'form': form, 'notes': notes})
-
