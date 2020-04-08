@@ -28,7 +28,6 @@ class Command(BaseCommand):
                 us.permissions.add(p)
                 us.save()
 
-            users_to_add = input(": ").split()
             for u in users_to_add:
                 try:
                     self.add_user_to_group(us, u)
