@@ -1,20 +1,25 @@
 {% load static %}
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>mininotes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 collaborapp</title>
     <link rel="stylesheet" type="text/css" href='{% static "home/style.css" %}'>
+    <style>
+        .postoffice {
+            background-image: url("{% static 'postoffice/images/envelope_weird_group_2.svg' %}");
+            background-repeat: repeat;
+        }
+    </style>
 </head>
 <body>
     <nav>
         {% if request.user.is_authenticated %}
-	<a class="welcome" href={% url 'go_home' %}>Home</a>
+	<a class="welcome" href="{% url 'home:go_home' %}">Home</a>
             <a href="/logout/">Logout</a>
         {% else %}
             <a href="/login/">Login</a>
         {% endif %}
-
 
     </nav>
     <div style="margin: 20px;">

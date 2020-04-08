@@ -24,10 +24,10 @@ def signup(request):
             login(request, user)
             return redirect('/')
         else:
-            return render(request, 'signup.html', {'form': form})
+            return render(request, 'home/signup.html', {'form': form})
     else:
         form = SignupForm()
-        return render(request, 'signup.html', {'form': form})
+        return render(request, 'home/signup.html', {'form': form})
 
 
 def login_user(request):
@@ -42,10 +42,10 @@ def login_user(request):
             login(request, user)
             return redirect('/')
         else:
-            return render(request, 'login.html', {'form': form})
+            return render(request, 'home/login.html', {'form': form})
     else:
         form = AuthenticationForm()
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'home/login.html', {'form': form})
 
 
 def logout_user(request):

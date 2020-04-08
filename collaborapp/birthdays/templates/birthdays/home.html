@@ -1,0 +1,17 @@
+{% extends "birthdays/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <h2>{{ user }}'s gifts</h2>
+
+    <ul>
+    {% for gift in gifts %}
+        <li>
+        <a href="{% url 'birthdays:show_birthday_card' birthday_person=gift.recipient.username birthday_gifter=gift.gifter.username age=gift.recipient_age %}">Happy {{gift.recipient_age}} Birthday, {{gift.recipient.username}}! <3</a>
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endblock content %}
+
