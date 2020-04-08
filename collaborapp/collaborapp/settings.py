@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = django_secret_key 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False 
 
 ALLOWED_HOSTS = ['thisisatest.life', 'www.thisisatest.life']
 

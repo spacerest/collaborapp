@@ -37,14 +37,16 @@ def new_item(request):
             message.envelope = envelope 
             message.encryption_type = encryption_type
             message.save()
-            image = image_form.save(commit=False)
-            image.envelope = envelope 
-            image.encryption_type = encryption_type
-            image.save()
-            pdf = pdf_form.save(commit=False)
-            pdf.envelope = envelope 
-            pdf.encryption_type = encryption_type
-            pdf.save()
+            if image_form.is_valid():
+                image = image_form.save(commit=False)
+                image.envelope = envelope 
+                image.encryption_type = encryption_type
+                image.save()
+            if pdf_form.is_valid():
+                pdf = pdf_form.save(commit=False)
+                pdf.envelope = envelope 
+                pdf.encryption_type = encryption_type
+                pdf.save()
 
             return redirect('postoffice:encrypt', envelope.primary_key)
     data = {'envelope_form': envelope_form, 'message_form': message_form, 'image_form': image_form, 'pdf_form': pdf_form}
