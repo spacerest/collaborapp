@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from .models import Gift
+from collaborapp.decorators import group_required
 
-# Create your views here.
 
-def show_card(request, birthday_person, birthday_gifter, age):
+@group_required('us')  # private page, only admins and members of 'us' can access it
+def show_card(request, birthday_person, age):
     template = str(birthday_person) + '/' + str(birthday_gifter) + '/' + str(age) + '/card.html'
     return render(request, template)
 
