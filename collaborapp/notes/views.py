@@ -1,10 +1,8 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from notes.forms import SignupForm, NoteForm
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import render
+from notes.forms import NoteForm
 from django.contrib.auth.decorators import login_required
 from notes.models import Note
+
 
 @login_required(login_url='/login')
 def home(request):
