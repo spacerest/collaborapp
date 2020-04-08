@@ -10,6 +10,7 @@ def go_home(request):
     return render(request, 'home/index.html')
 
 
+#not currently being used
 def signup(request):
     if request.user.is_authenticated:
         return redirect('/')
