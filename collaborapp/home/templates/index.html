@@ -1,13 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block content %}
 
 <h1> Home </h1>
+
+<h2>Postoffice</h2>
+<div class="image-link-menu">
+	<a class="image-link" href={% url 'postoffice:home' %}>
+		<div class="image-link-background" style="background-image: url('{% static "postoffice/images/envelope_weird_group_2.svg" %}'); background-repeat: repeat;"><span>Postoffice</span></div>
+	</a>
+
+<a class="image-link" href={% url 'birthday:home' %}>
+		<div class="image-link-background" style="background-image: url('{% static "postoffice/images/envelope_weird_group_2.svg" %}'); background-repeat: repeat;"><span>Birthdays</span></div>
+	</a>
+
+</div>
 <h2>Birthdays</h2>
 <ul>
 
 	<li>
-		<a href={% url 'show_birthday_card' birthday_person='martin' age=33 %}>Happy 33rd Birthday, Martin! <3</a> 
+		<a href={% url 'birthday:show_birthday_card' birthday_person='martin' age=33 %}>Happy 33rd Birthday, Martin! <3</a> 
 	</li>
 
 </ul>
