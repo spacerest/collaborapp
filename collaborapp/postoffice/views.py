@@ -23,34 +23,39 @@ def delete_item(request, primary_key):
     return redirect('postoffice:home')
 
 def new_item(request):
-    if request.method == "POST":
-        envelope_form = NewEnvelope(request.POST)
-        message_form = NewTextMessage(request.POST)
-        image_form = NewImageMessage(request.POST)
-        pdf_form = NewPdfMessage(request.POST)
-        if message_form.is_valid() and envelope_form.is_valid():
-            #todo: for now, only letting fernet_string encryption be an option
-            encryption_type = EncryptionType.objects.filter(name="fernet_string")[0]
-            envelope = envelope_form.save(commit=False)
-            envelope.save()
-            message = message_form.save(commit=False)
-            message.envelope = envelope 
-            message.encryption_type = encryption_type
-            message.save()
-            if image_form.is_valid():
-                image = image_form.save(commit=False)
-                image.envelope = envelope 
-                image.encryption_type = encryption_type
-                image.save()
-            if pdf_form.is_valid():
-                pdf = pdf_form.save(commit=False)
-                pdf.envelope = envelope 
-                pdf.encryption_type = encryption_type
-                pdf.save()
+    try:
+        if request.method == "POST":
+            envelope_form = NewEnvelope(request.POST)
+            message_form = NewTextMessage(request.POST)
+            image_form = NewImageMessage(request.POST, request.FILES)
+            pdf_form = NewPdfMessage(request.POST, request.FILES)
+            print(pdf_form)
+            print(pdf_form.is_valid())
+            if message_form.is_valid() and envelope_form.is_valid():
+                #todo: for now, only letting fernet_string encryption be an option
+                encryption_type = EncryptionType.objects.filter(name="fernet_string")[0]
+                envelope = envelope_form.save(commit=False)
+                envelope.save()
+                message = message_form.save(commit=False)
+                message.envelope = envelope 
+                message.encryption_type = encryption_type
+                message.save()
+                if image_form.is_valid():
+                    image = image_form.save(commit=False)
+                    image.envelope = envelope 
+                    image.encryption_type = encryption_type
+                    image.save()
+                if pdf_form.is_valid():
+                    pdf = pdf_form.save(commit=False)
+                    pdf.envelope = envelope 
+                    pdf.encryption_type = encryption_type
+                    pdf.save()
 
-            return redirect('postoffice:encrypt', envelope.primary_key)
-    data = {'envelope_form': envelope_form, 'message_form': message_form, 'image_form': image_form, 'pdf_form': pdf_form}
-    return render(request, 'postoffice/outbox.html', data)
+                return redirect('postoffice:encrypt', envelope.primary_key)
+        data = {'envelope_form': envelope_form, 'message_form': message_form, 'image_form': image_form, 'pdf_form': pdf_form}
+        return render(request, 'postoffice/outbox.html', data)
+    except Exception as e:
+        print(e)
 
 def send_envelope(request):
     envelope_form = NewEnvelope()
@@ -70,16 +75,20 @@ def find_envelope(request, primary_key=None):
 
 #todo research sending symmetric key in cleartext
 def view_contents(request, primary_key):
-    data = {}
-    data['envelope'] = lookup_envelope(primary_key) 
-    data['form'] = StringUnlocker()
-    if data['envelope']:
-        data['text_contents'] = data['envelope'].text_messages.all()
-        data['image_contents'] = data['envelope'].image_messages.all()
-        data['pdf_contents'] = data['envelope'].pdf_messages.all()
+    try:
+        data = {}
+        data['envelope'] = lookup_envelope(primary_key) 
+        data['form'] = StringUnlocker()
+        if data['envelope']:
+            data['text_contents'] = data['envelope'].text_messages.all()
+            data['image_contents'] = data['envelope'].image_messages.all()
+            data['pdf_contents'] = data['envelope'].pdf_messages.all()
+            print(data)
+        form = StringUnlocker()
+        return render(request, 'postoffice/view_contents.html', data)
+    except Exception as e:
         print(data)
-    form = StringUnlocker()
-    return render(request, 'postoffice/view_contents.html', data)
+        print(e)
 
 #todo research sending symmetric key in cleartext
 def encrypt(request, primary_key):

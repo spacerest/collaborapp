@@ -142,3 +142,5 @@ STATICFILES_DIRS = [
 	os.path.join(BASE_DIR, 'birthdays/static'),
 	os.path.join(BASE_DIR, 'postoffice/static'),
 ]
+
+FILE_UPLOAD_PERMISSIONS=0o2755

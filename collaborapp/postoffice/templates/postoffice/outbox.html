@@ -2,7 +2,7 @@
 {% load static %}
     {% block content %}
         <h2>Outbox</h2>
-        <form method="POST" action="{% url 'postoffice:new_item' %}">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'postoffice:new_item' %}">
             {% csrf_token %}
             {{ envelope_form.as_p }}
             {{ image_form.as_p }}
