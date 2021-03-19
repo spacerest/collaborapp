@@ -2,7 +2,7 @@ asgiref==3.2.7
 cffi==1.14.0
 cryptography==2.9
 Django~=2.2.5
-Pillow==7.1.1
+Pillow==8.1.1
 pycparser==2.20
 pytz==2018.5
 six==1.14.0
